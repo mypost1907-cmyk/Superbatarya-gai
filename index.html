@@ -468,14 +468,21 @@
                     <p class="text-gray-400 mb-12">Yatırımcı grubumuza katılın veya teknik detaylar için
                         mühendislerimizle iletişime geçin.</p>
 
-                    <form id="contact-form" class="space-y-6 max-w-xl mx-auto">
+                    <form id="contact-form" action="https://formsubmit.co/gokhandogan90@gmail.com" method="POST"
+                        class="space-y-6 max-w-xl mx-auto">
+                        <!-- FormSubmit Settings -->
+                        <input type="hidden" name="_subject" value="Super Batarya - Yeni İletişim Mesajı!">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+
                         <div class="grid sm:grid-cols-2 gap-4">
-                            <input type="text" placeholder="Ad Soyad" required
+                            <input type="text" name="name" placeholder="Ad Soyad" required
                                 class="w-full px-6 py-4 bg-dark/50 border border-white/10 rounded-2xl focus:border-amber-500 focus:outline-none text-white transition-all">
-                            <input type="email" placeholder="E-posta" required
+                            <input type="email" name="email" placeholder="E-posta" required
                                 class="w-full px-6 py-4 bg-dark/50 border border-white/10 rounded-2xl focus:border-amber-500 focus:outline-none text-white transition-all">
                         </div>
-                        <textarea placeholder="Mesajınız veya ilgi alanınız (EV, Solar, Wind...)" rows="4"
+                        <textarea name="message" placeholder="Mesajınız veya ilgi alanınız (EV, Solar, Wind...)"
+                            rows="4" required
                             class="w-full px-6 py-4 bg-dark/50 border border-white/10 rounded-2xl focus:border-amber-500 focus:outline-none text-white transition-all resize-none"></textarea>
 
                         <button type="submit"
@@ -521,20 +528,51 @@
     </footer>
 
     <script>
-        // Form handling
+        // Form handling with AJAX
         document.getElementById('contact-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            const btn = e.target.querySelector('button');
+            const form = e.target;
+            const btn = form.querySelector('button');
             const originalText = btn.innerText;
-            btn.innerText = 'İsteğiniz Alındı...';
-            btn.classList.add('bg-white');
 
-            setTimeout(() => {
-                alert('Tebrikler! UTAY Creativity enerji ekosistemine ilk adımı attınız. Ekibimiz sizinle iletişime geçecektir.');
-                btn.innerText = originalText;
-                btn.classList.remove('bg-white');
-                e.target.reset();
-            }, 1000);
+            btn.innerText = 'Gönderiliyor...';
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+
+            fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const formContainer = document.getElementById('form-container');
+                        formContainer.innerHTML = `
+                        <div class="flex flex-col items-center justify-center py-12 text-center animate-reveal">
+                            <div class="w-20 h-20 bg-amber-500/20 rounded-full flex items-center justify-center mb-6 text-amber-500">
+                                <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Mesajınız Alındı!</h3>
+                            <p class="text-gray-300">UTAY Creativity enerji ekosistemine ilginiz için teşekkürler.<br>Mesajınız gökhandogan90@gmail.com adresine iletildi.</p>
+                            <button onclick="location.reload()" class="mt-8 text-amber-500 hover:text-amber-400 font-medium underline underline-offset-4">
+                                Yeni mesaj gönder
+                            </button>
+                        </div>
+                    `;
+                    } else {
+                        throw new Error('Hata oluştu');
+                    }
+                })
+                .catch(error => {
+                    alert('Maalesef bir hata oluştu. Lütfen tekrar deneyin.');
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                });
         });
 
         // Simple Reveal Animation on Scroll
