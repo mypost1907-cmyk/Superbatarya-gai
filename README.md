@@ -2,10 +2,13 @@
 
 Modern ve etkileyici bir landing page tasarımı ile Super Batarya ürününü tanıtan web sitesi.
 
+🌐 **Live Site:** [superbatarya.com](https://superbatarya.com)
+
 ![Super Batarya](https://img.shields.io/badge/Status-Live-success)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?logo=tailwind-css&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+[![Deployed on Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)](https://superbatarya.com)
 
 ## 🌟 Özellikler
 
