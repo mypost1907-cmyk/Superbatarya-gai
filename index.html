@@ -447,8 +447,8 @@
                 opacity: 0.4;
             }
 
-            #turbine-blades-group {
-                transform-origin: center;
+            #turbine-blades-inner {
+                transform-origin: 50% 50%;
                 transition: transform 0.1s linear;
             }
         </style>
@@ -917,14 +917,17 @@
             altitudeText.innerText = `${Math.floor(val * 2.5)} m`;
             powerText.innerText = `${(val * 12.4).toFixed(1)} kW`;
 
-            // Balloon Lift
+            // Balloon Lift and Drift synced with power
             const lift = (val / 100) * 350;
-            balloon.style.transform = `translateY(-${lift}px)`;
+            const drift = (val / 100) * 60; // Wind pushes it sideways
+            balloon.style.transform = `translate(${-30 + drift}px, -${lift}px)`;
 
-            if (val > 50) {
-                balloon.classList.add('animate-float');
+            if (val > 30) {
+                // Shake slightly more as wind increases
+                const shake = (val - 30) / 10;
+                balloon.style.filter = `drop-shadow(0 ${30 + val / 2}px ${50 + val}px rgba(217,119,6,0.4))`;
             } else {
-                balloon.classList.remove('animate-float');
+                balloon.style.filter = `none`;
             }
         });
         // Splash Screen Handler
