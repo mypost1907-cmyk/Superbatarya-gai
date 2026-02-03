@@ -553,60 +553,62 @@
                         </div>
                     </div>
 
-                    <!-- Cappadocia Balloon (Upgraded) -->
-                    <div class="h-[500px] flex items-end justify-center relative w-80 pb-12">
+                    <!-- Cappadocia Balloon (Upgraded: Tall & Blue/Yellow Motif) -->
+                    <div class="h-[550px] flex items-end justify-center relative w-80 pb-12">
                         <div id="balloon"
                             class="relative flex flex-col items-center transition-all duration-1000 ease-out">
-                            <!-- Large Persian Carpet Style Balloon SVG -->
-                            <svg width="180" height="250" viewBox="0 0 100 140"
-                                class="drop-shadow-[0_40px_60px_rgba(153,27,27,0.5)]">
+                            <!-- Tall Traditional Motif Balloon SVG -->
+                            <svg width="200" height="320" viewBox="0 0 100 150"
+                                class="drop-shadow-[0_40px_60px_rgba(30,58,138,0.5)]">
                                 <defs>
-                                    <!-- Persian Carpet Pattern -->
-                                    <pattern id="carpetPattern" patternUnits="userSpaceOnUse" width="20" height="20">
-                                        <rect width="20" height="20" fill="#7f1d1d" /> <!-- Deep Red Base -->
-                                        <path d="M10 0 L20 10 L10 20 L0 10 Z" fill="#991b1b" opacity="0.5" />
-                                        <circle cx="10" cy="10" r="3" fill="#fbbf24" opacity="0.8" />
-                                        <!-- Gold Accent -->
-                                        <path d="M0 0 L5 5 M15 15 L20 20 M20 0 L15 5 M5 15 L0 20" stroke="#450a0a"
-                                            stroke-width="0.5" />
+                                    <!-- Traditional Blue & Yellow Motif Pattern -->
+                                    <pattern id="tradPattern" patternUnits="userSpaceOnUse" width="30" height="30">
+                                        <rect width="30" height="30" fill="#1e3a8a" /> <!-- Deep Blue Base -->
+                                        <!-- Yellow Diamonds/Motifs -->
+                                        <path d="M15 5 L25 15 L15 25 L5 15 Z" fill="#fbbf24" opacity="0.9" />
+                                        <circle cx="15" cy="15" r="3" fill="#1e3a8a" />
+                                        <!-- Small Corner Stars -->
+                                        <path
+                                            d="M0 0 L5 0 L0 5 Z M30 0 L25 0 L30 5 Z M0 30 L5 30 L0 25 Z M30 30 L25 30 L30 25 Z"
+                                            fill="#f59e0b" />
                                     </pattern>
                                     <linearGradient id="balloonShade" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" style="stop-color:white; stop-opacity:0.2" />
-                                        <stop offset="100%" style="stop-color:black; stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:black; stop-opacity:0.4" />
                                     </linearGradient>
                                 </defs>
 
-                                <!-- Balloon Envelope -->
+                                <!-- Tall Balloon Envelope -->
                                 <path
-                                    d="M50 0 C22.4 0 0 22.4 0 50 C0 77.6 22.4 100 50 100 C77.6 100 100 77.6 100 50 C100 22.4 77.6 0 50 0 Z"
-                                    fill="url(#carpetPattern)" />
+                                    d="M50 0 C20 0 5 25 5 65 C5 95 35 120 50 120 C65 120 95 95 95 65 C95 25 80 0 50 0 Z"
+                                    fill="url(#tradPattern)" />
                                 <path
-                                    d="M50 0 C22.4 0 0 22.4 0 50 C0 77.6 22.4 100 50 100 C77.6 100 100 77.6 100 50 C100 22.4 77.6 0 50 0 Z"
+                                    d="M50 0 C20 0 5 25 5 65 C5 95 35 120 50 120 C65 120 95 95 95 65 C95 25 80 0 50 0 Z"
                                     fill="url(#balloonShade)" />
 
-                                <!-- Decorative Gold Bands -->
-                                <path d="M5 35 Q50 30 95 35" fill="none" stroke="#fbbf24" stroke-width="2"
-                                    opacity="0.6" />
-                                <path d="M5 65 Q50 70 95 65" fill="none" stroke="#fbbf24" stroke-width="2"
-                                    opacity="0.6" />
+                                <!-- Decorative Yellow Bands -->
+                                <path d="M7 40 Q50 35 93 40" fill="none" stroke="#fbbf24" stroke-width="2"
+                                    opacity="0.7" />
+                                <path d="M10 75 Q50 80 90 75" fill="none" stroke="#fbbf24" stroke-width="2"
+                                    opacity="0.7" />
 
                                 <!-- Passenger Silhouettes -->
-                                <circle cx="44" cy="118" r="3.5" fill="#1a1a1a" /> <!-- Person 1 -->
-                                <circle cx="56" cy="117" r="3.5" fill="#1a1a1a" /> <!-- Person 2 -->
-                                <path d="M40 120 Q44 120 48 120" stroke="#1a1a1a" stroke-width="4" /> <!-- Shoulders -->
-                                <path d="M52 120 Q56 120 60 120" stroke="#1a1a1a" stroke-width="4" /> <!-- Shoulders -->
+                                <circle cx="44" cy="133" r="3.5" fill="#111" /> <!-- Person 1 -->
+                                <circle cx="56" cy="132" r="3.5" fill="#111" /> <!-- Person 2 -->
+                                <path d="M40 135 Q44 135 48 135" stroke="#111" stroke-width="4" />
+                                <path d="M52 135 Q56 135 60 135" stroke="#111" stroke-width="4" />
 
                                 <!-- Ropes -->
-                                <line x1="30" y1="100" x2="38" y2="120" stroke="#8B4513" stroke-width="1.5" />
-                                <line x1="70" y1="100" x2="62" y2="120" stroke="#8B4513" stroke-width="1.5" />
-                                <line x1="15" y1="85" x2="38" y2="120" stroke="#8B4513" stroke-width="1" />
-                                <line x1="85" y1="85" x2="62" y2="120" stroke="#8B4513" stroke-width="1" />
+                                <line x1="30" y1="115" x2="38" y2="135" stroke="#8B4513" stroke-width="1.5" />
+                                <line x1="70" y1="115" x2="62" y2="135" stroke="#8B4513" stroke-width="1.5" />
+                                <line x1="15" y1="100" x2="38" y2="135" stroke="#8B4513" stroke-width="1" />
+                                <line x1="85" y1="100" x2="62" y2="135" stroke="#8B4513" stroke-width="1" />
 
-                                <!-- Basket (Larger) -->
-                                <rect x="35" y="120" width="30" height="18" rx="3" fill="#5D4037" />
-                                <rect x="35" y="122" width="30" height="4" fill="#3E2723" />
+                                <!-- Basket (Large) -->
+                                <rect x="35" y="135" width="30" height="15" rx="3" fill="#5D4037" />
+                                <rect x="35" y="137" width="30" height="4" fill="#3E2723" />
                             </svg>
-                            <div class="w-12 h-6 bg-amber-500/10 rounded-full blur-2xl mt-4 animate-pulse"></div>
+                            <div class="w-16 h-8 bg-blue-500/10 rounded-full blur-2xl mt-4 animate-pulse"></div>
                         </div>
                     </div>
                 </div>
