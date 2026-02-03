@@ -92,6 +92,75 @@
 </head>
 
 <body class="selection:bg-amber-500/30 selection:text-amber-200">
+    <!-- Premium Splash Screen -->
+    <div id="splash-screen" class="fixed inset-0 z-[100] bg-dark flex items-center justify-center overflow-hidden">
+        <div class="relative flex flex-col items-center">
+            <!-- Animated Background Glow -->
+            <div
+                class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent w-[200%] animate-[pulse_2s_ease-in-out_infinite]">
+            </div>
+
+            <div class="relative z-10 flex flex-col items-center animate-[reveal_1.2s_ease-out_forwards]">
+                <div class="w-32 h-32 mb-6 relative group">
+                    <div
+                        class="absolute inset-0 bg-amber-500 rounded-2xl blur-3xl opacity-20 group-hover:opacity-40 transition-opacity animate-pulse">
+                    </div>
+                    <img src="logo.jpg" alt="Logo"
+                        class="w-full h-full rounded-2xl object-cover border-2 border-amber-500/50 relative z-10 shadow-[0_0_50px_rgba(245,158,11,0.3)] animate-[scaleIn_0.8s_ease-out]">
+                </div>
+                <h1
+                    class="font-display font-black text-4xl lg:text-6xl tracking-tighter uppercase text-white mb-2 animate-[fadeInUp_1s_ease-out_0.3s_both]">
+                    SUPER <span class="text-gradient">BATARYA</span>
+                </h1>
+                <div class="h-1 w-0 bg-amber-500 rounded-full animate-[loadingLine_1.5s_ease-in-out_forwards]"></div>
+                <p
+                    class="text-amber-500/60 text-xs font-bold uppercase tracking-[0.5em] mt-4 animate-[fadeIn_1s_ease-out_0.8s_both]">
+                    UTAY CREATIVITY ENERJİ SİSTEMLERİ</p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes loadingLine {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .splash-hidden {
+            transform: translateY(-100%);
+            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+    </style>
+
     <div class="bg-mesh fixed inset-0 pointer-events-none"></div>
 
     <!-- Navigation -->
@@ -691,6 +760,18 @@
         }, observerOptions);
 
         document.querySelectorAll('section > div').forEach(el => observer.observe(el));
+
+        // Splash Screen Handler
+        window.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-screen');
+            setTimeout(() => {
+                splash.classList.add('splash-hidden');
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }, 800);
+            }, 2500); // 2.5 seconds show time
+        });
     </script>
     <script type="application/ld+json">
     {
