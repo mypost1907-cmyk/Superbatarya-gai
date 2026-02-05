@@ -14,8 +14,21 @@ let gameRunning = false;
 let frameId;
 let score = 0;
 let energy = 100;
-let gameSpeed = 5;
+let gameSpeed = 3; // Slower start (Mario-like pace)
 let frameCount = 0;
+let level = 1;
+
+// Image Assets (Procedurally drawn for now to keep it single-file)
+// Mario-like palette
+const PALETTE = {
+    sky: '#87CEEB', // Sky Blue
+    ground: '#5C3317', // Earth Brown
+    groundTop: '#1EBC31', // Grass Green
+    brick: '#B23A12',
+    block: '#FFD700', // Question block gold
+    player: '#E52521', // Mario Red
+    playerDungarees: '#0433FF' // Mario Blue
+};
 
 // Canvas Size
 function resizeCanvas() {
@@ -25,32 +38,34 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// Game Objects
 const player = {
     x: 100,
     y: 200,
-    radius: 15,
+    w: 30, // Hitbox width
+    h: 40, // Hitbox height
     dy: 0,
-    gravity: 0.6,
-    jumpPower: -12,
+    gravity: 0.5,
+    jumpPower: -11,
     grounded: false,
-    color: '#f59e0b',
-    glow: 20,
-    doubleJump: true
+    doubleJump: false, // Mario usually doesn't double jump, but we can keep it for "Super" feel or remove it for purism. Let's keep it restricted.
+    canDoubleJump: true,
+    state: 'idle' // idle, run, jump
 };
 
-let obstacles = [];
+let entities = []; // Platforms, obstacles, coins combined or separate lists?
+let platforms = [];
 let particles = [];
 let pickups = [];
+let mobs = []; // Enemies
 
-class Obstacle {
-    constructor() {
-        this.w = 40;
-        this.h = 60 + Math.random() * 80;
-        this.x = canvas.width;
-        this.y = canvas.height - this.h;
+class Platform {
+    constructor(x, y, w, type = 'BRICK') {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = 30;
+        this.type = type; // BRICK, QUESTION, GROUND
         this.markedForDeletion = false;
-        this.type = Math.random() > 0.5 ? 'SMOG' : 'RESISTOR';
     }
 
     update() {
@@ -59,259 +74,374 @@ class Obstacle {
     }
 
     draw() {
-        if (this.type === 'SMOG') {
-            ctx.fillStyle = '#4b5563';
-            ctx.beginPath();
-            ctx.arc(this.x + 20, this.y + 20, 30, 0, Math.PI * 2);
-            ctx.arc(this.x + 40, this.y + 10, 25, 0, Math.PI * 2);
-            ctx.arc(this.x + 10, this.y + 50, 20, 0, Math.PI * 2);
-            ctx.fill();
-        } else {
-            ctx.fillStyle = '#b91c1c';
-            ctx.fillRect(this.x, this.y, this.w, this.h);
-            // Resistor stripes
-            ctx.fillStyle = '#fca5a5';
-            ctx.fillRect(this.x + 5, this.y + 10, 30, 5);
-            ctx.fillRect(this.x + 5, this.y + 30, 30, 5);
+        if (this.type === 'GROUND') {
+            // Drawn globally mostly, but for chunks:
+            return;
         }
+
+        // Draw Brick/Block
+        ctx.fillStyle = this.type === 'BRICK' ? PALETTE.brick : PALETTE.block;
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+
+        // Detail
+        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillRect(this.x, this.y + this.h - 5, this.w, 3); // shadow
+
+        // Brick texture
+        if (this.type === 'BRICK') {
+            ctx.fillStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(this.x, this.y, this.w, this.h);
+        } else {
+            // Question Block Dots
+            ctx.fillStyle = '#C28800';
+            ctx.fillRect(this.x + 5, this.y + 5, 4, 4);
+            ctx.fillRect(this.x + this.w - 9, this.y + 5, 4, 4);
+            ctx.fillRect(this.x + 5, this.y + this.h - 9, 4, 4);
+            ctx.fillRect(this.x + this.w - 9, this.y + this.h - 9, 4, 4);
+        }
+    }
+}
+
+class Mob {
+    constructor() {
+        this.w = 30;
+        this.h = 30;
+        this.x = canvas.width + Math.random() * 500;
+        this.y = canvas.height - 40 - this.h; // On ground
+        this.markedForDeletion = false;
+        this.speedOffset = -1; // Moves slightly towards player
+        this.animationFrame = 0;
+    }
+
+    update() {
+        this.x -= (gameSpeed + 1); // Moves left faster than ground
+        this.animationFrame++;
+        if (this.x + this.w < 0) this.markedForDeletion = true;
+    }
+
+    draw() {
+        // Goomba-like Smog Monster
+        let bounce = Math.sin(this.animationFrame * 0.2) * 3;
+
+        ctx.fillStyle = '#5D3C31'; // Brownish/Dark
+        if (this.animationFrame % 20 < 10) {
+            // Step 1
+        }
+
+        ctx.beginPath();
+        ctx.arc(this.x + 15, this.y + 15 - bounce, 15, 0, Math.PI, true); // Head
+        ctx.lineTo(this.x + 30, this.y + 30);
+        ctx.lineTo(this.x, this.y + 30);
+        ctx.fill();
+
+        // Eyes
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(this.x + 5, this.y + 5 - bounce, 8, 8);
+        ctx.fillRect(this.x + 17, this.y + 5 - bounce, 8, 8);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(this.x + 7, this.y + 7 - bounce, 3, 3);
+        ctx.fillRect(this.x + 19, this.y + 7 - bounce, 3, 3);
     }
 }
 
 class Pickup {
-    constructor() {
-        this.radius = 10;
-        this.x = canvas.width;
-        this.y = Math.random() * (canvas.height - 150) + 50;
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = 20;
         this.markedForDeletion = false;
-        this.type = Math.random() > 0.6 ? 'SUN' : 'WIND'; // 40% Wind, 60% Sun
+        this.baseY = y;
+        this.floatOffset = Math.random() * Math.PI * 2;
     }
 
     update() {
         this.x -= gameSpeed;
-        // Float effect
-        this.y += Math.sin(frameCount * 0.05) * 0.5;
-        if (this.x + this.radius < 0) this.markedForDeletion = true;
+        this.y = this.baseY + Math.sin(frameCount * 0.1 + this.floatOffset) * 5;
+        if (this.x + this.size < 0) this.markedForDeletion = true;
     }
 
     draw() {
+        // Coin / Battery
+        ctx.fillStyle = '#F59E0B'; // Amber coin
         ctx.beginPath();
-        if (this.type === 'SUN') {
-            ctx.fillStyle = '#fbbf24';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#fbbf24';
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
-            // Rays
-            for (let i = 0; i < 8; i++) {
-                let angle = (frameCount * 0.05) + (i * Math.PI / 4);
-                let rx = this.x + Math.cos(angle) * 18;
-                let ry = this.y + Math.sin(angle) * 18;
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(rx, ry);
-                ctx.strokeStyle = '#fbbf24';
-                ctx.stroke();
-            }
-        } else {
-            ctx.fillStyle = '#22d3ee'; // Cyan/Blue
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#22d3ee';
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fill();
-            // Swirl
-            ctx.strokeStyle = '#fff';
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, 6, 0, Math.PI * 1.5);
-            ctx.stroke();
-        }
-        ctx.shadowBlur = 0;
+        ctx.ellipse(this.x + 10, this.y + 10, 8, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#FCD34D'; // Shine
+        ctx.beginPath();
+        ctx.ellipse(this.x + 10, this.y + 10, 5, 9, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#F59E0B'; // Text
+        ctx.font = '12px "Outfit"';
+        ctx.fillText('⚡', this.x + 4, this.y + 14);
     }
 }
 
-class Particle {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 2 - 1;
-        this.speedY = Math.random() * 2 - 1;
-        this.color = color;
-        this.life = 60;
-    }
-    update() {
-        this.x -= gameSpeed + this.speedX;
-        this.y += this.speedY;
-        this.life--;
-    }
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.life / 60;
-        ctx.fillRect(this.x, this.y, this.size, this.size);
-        ctx.globalAlpha = 1;
-    }
-}
+function handleInput(e) {
+    if (e.type === 'keydown' && e.code !== 'Space' && e.code !== 'ArrowUp') return;
+    if (e.type === 'touchstart') e.preventDefault();
 
-// Input Handling
-function jump() {
     if (!gameRunning) return;
 
     if (player.grounded) {
         player.dy = player.jumpPower;
         player.grounded = false;
-        createParticles(player.x, player.y + player.radius, '#f59e0b', 5);
-    } else if (player.doubleJump) {
-        player.dy = player.jumpPower * 0.8;
-        player.doubleJump = false;
-        createParticles(player.x, player.y, '#fff', 5);
+        player.canDoubleJump = true;
+    } else if (player.canDoubleJump) {
+        player.dy = player.jumpPower * 0.9;
+        player.canDoubleJump = false;
     }
 }
 
-window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' || e.code === 'ArrowUp') {
-        e.preventDefault();
-        jump();
-    }
-});
-canvas.addEventListener('mousedown', jump);
-canvas.addEventListener('touchstart', (e) => { e.preventDefault(); jump(); });
+window.addEventListener('keydown', handleInput);
+canvas.addEventListener('mousedown', () => handleInput({ type: 'keydown', code: 'Space' }));
+canvas.addEventListener('touchstart', handleInput);
 
-function createParticles(x, y, color, count) {
-    for (let i = 0; i < count; i++) {
-        particles.push(new Particle(x, y, color));
+function spawnLevelChunks() {
+    // Progressive Generation
+    // Every 1000px distance approx (gameSpeed * frames)
+
+    // Platforms high
+    if (frameCount % 150 === 0) {
+        if (Math.random() > 0.3) {
+            let height = canvas.height - 120 - Math.random() * 80;
+            platforms.push(new Platform(canvas.width, height, 100 + Math.random() * 60, 'BRICK'));
+
+            // Put pickups on platform
+            if (Math.random() > 0.3) {
+                pickups.push(new Pickup(canvas.width + 40, height - 40));
+                pickups.push(new Pickup(canvas.width + 80, height - 40));
+            }
+        }
+    }
+
+    // Mobs (Goombas)
+    if (frameCount % (200 - Math.min(level * 10, 100)) === 0) {
+        mobs.push(new Mob());
     }
 }
 
-function spawnEntities() {
-    // Obstacles
-    if (frameCount % 120 === 0) { // Every ~2 seconds
-        obstacles.push(new Obstacle());
-    }
-    // Pickups
-    if (frameCount % 80 === 0) {
-        pickups.push(new Pickup());
-    }
-}
-
-function update() {
-    // Clear
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Background (Moving grid lines)
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 1;
-    let gridOffset = (frameCount * gameSpeed) % 50;
-    for (let i = 0; i < canvas.width + 50; i += 50) {
-        ctx.beginPath();
-        ctx.moveTo(i - gridOffset, 0);
-        ctx.lineTo(i - gridOffset, canvas.height);
-        ctx.stroke();
-    }
-    // Horizon
-    ctx.fillStyle = '#111';
-    ctx.fillRect(0, canvas.height - 20, canvas.width, 20);
-
-    // Player Physics
+function updatePhysics() {
     player.dy += player.gravity;
     player.y += player.dy;
 
-    // Ground Collision
-    if (player.y + player.radius > canvas.height - 20) {
-        player.y = canvas.height - 20 - player.radius;
+    // Ground Check
+    const groundLevel = canvas.height - 40;
+
+    // Reset grounded for this frame until proven otherwise
+    let onGround = false;
+
+    // 1. Check Main Floor
+    if (player.y + player.h > groundLevel) {
+        player.y = groundLevel - player.h;
         player.dy = 0;
-        player.grounded = true;
-        player.doubleJump = true;
-        // Run particles
-        if (frameCount % 5 === 0) createParticles(player.x - 10, player.y + player.radius, '#f59e0b', 1);
-    } else {
-        player.grounded = false;
+        onGround = true;
     }
 
-    // Draw Player
-    ctx.shadowBlur = player.glow;
-    ctx.shadowColor = player.color;
-    ctx.fillStyle = player.color;
-    ctx.beginPath();
-    ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // Entities
-    spawnEntities();
-
-    // Obstacles
-    obstacles.forEach((obs, index) => {
-        obs.update();
-        obs.draw();
-
-        // Collision
-        // Simple AABB/Circle check approximation
-        let dx = player.x - (obs.x + obs.w / 2);
-        let dy = player.y - (obs.y + obs.h / 2);
-        let dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < player.radius + 30) { // Hit
-            energy -= 1; // Drain energy fast on contact
-            createParticles(player.x, player.y, '#555', 2);
-            if (energy <= 0) gameOver();
+    // 2. Check Platforms
+    platforms.forEach(plat => {
+        // AABB Collision (simplified for landing on top)
+        // Only land if falling (dy > 0) and previous frame was above
+        if (player.dy >= 0 &&
+            player.y + player.h - player.dy <= plat.y + 10 && // Was above-ish
+            player.y + player.h > plat.y && // Is intersecting
+            player.x + player.w > plat.x && // Horizontal Overlap
+            player.x < plat.x + plat.w
+        ) {
+            player.y = plat.y - player.h;
+            player.dy = 0;
+            onGround = true;
         }
+    });
 
-        if (obs.markedForDeletion) obstacles.splice(index, 1);
+    player.grounded = onGround;
+    if (onGround) player.canDoubleJump = true;
+}
+
+function checkCollisions() {
+    // Mobs
+    mobs.forEach(mob => {
+        if (
+            player.x < mob.x + mob.w &&
+            player.x + player.w > mob.x &&
+            player.y < mob.y + mob.h &&
+            player.y + player.h > mob.y
+        ) {
+            // Mario Logic: Jump ON TOP = Kill, Touch Side = Die
+            const falling = player.dy > 0;
+            const hitFromAbove = (player.y + player.h) - (mob.y + mob.h / 2) < 0;
+
+            if (falling && hitFromAbove) {
+                // Kill mob
+                mob.markedForDeletion = true;
+                player.dy = -6; // Bounce
+                score += 50;
+                createExplosion(mob.x + mob.w / 2, mob.y + mob.h / 2, '#555');
+            } else {
+                // Hit player
+                energy -= 20;
+                createExplosion(player.x, player.y, '#f00');
+                mob.markedForDeletion = true; // Remove mob anyway to prevent install-kill
+                if (energy <= 0) gameOver();
+            }
+        }
     });
 
     // Pickups
-    pickups.forEach((p, index) => {
-        p.update();
-        p.draw();
-
-        let dx = player.x - p.x;
-        let dy = player.y - p.y;
+    pickups.forEach(p => {
+        let dx = (player.x + player.w / 2) - (p.x + 10);
+        let dy = (player.y + player.h / 2) - (p.y + 10);
         let dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < player.radius + p.radius) {
-            // Collect
-            score += 100;
-            energy = Math.min(energy + 15, 100);
-            createParticles(p.x, p.y, p.type === 'SUN' ? '#fbbf24' : '#22d3ee', 10);
+        if (dist < 30) {
+            score += 20;
+            energy = Math.min(energy + 10, 100);
             p.markedForDeletion = true;
         }
-
-        if (p.markedForDeletion) pickups.splice(index, 1);
     });
+}
 
-    // Particles
-    particles.forEach((p, index) => {
-        p.update();
-        p.draw();
-        if (p.life <= 0) particles.splice(index, 1);
-    });
+function createExplosion(x, y, color) {
+    // Simple particles
+}
 
-    // Stats
-    energy -= 0.05; // Passive drain
+function drawPlayer() {
+    // "Mario" style box
+    ctx.fillStyle = PALETTE.player; // Red Texture
+    ctx.fillRect(player.x, player.y, player.w, player.h); // Shirt
+
+    // Dungarees
+    ctx.fillStyle = PALETTE.playerDungarees;
+    ctx.fillRect(player.x, player.y + 25, player.w, 15);
+
+    // Hat (Visor for Battery man)
+    ctx.fillStyle = '#b91c1c';
+    ctx.fillRect(player.x - 2, player.y - 5, player.w + 4, 10);
+
+    // Face (Pale)
+    ctx.fillStyle = '#ffccaa';
+    ctx.fillRect(player.x + 5, player.y + 5, 20, 15);
+
+    // Eye
+    ctx.fillStyle = '#000';
+    ctx.fillRect(player.x + 18, player.y + 8, 4, 4);
+}
+
+function drawEnvironment() {
+    // Sky
+    ctx.fillStyle = PALETTE.sky;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Clouds
+    ctx.fillStyle = '#fff';
+    const cloudOffset = (frameCount * 0.5) % (canvas.width + 200);
+    drawCloud(100 - cloudOffset, 80);
+    drawCloud(600 - cloudOffset, 50);
+    drawCloud(900 - cloudOffset, 120);
+
+    // Mountains (Parallax ish)
+    ctx.fillStyle = '#1e3a8a'; // Dark blue hills
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height);
+    for (let i = 0; i <= canvas.width + 100; i += 150) {
+        let h = 100 + Math.sin(i * 0.01 + frameCount * 0.002) * 50;
+        ctx.lineTo(i, canvas.height - h);
+    }
+    ctx.lineTo(canvas.width, canvas.height);
+    ctx.fill();
+
+    // Ground
+    const groundLevel = canvas.height - 40;
+    ctx.fillStyle = PALETTE.ground;
+    ctx.fillRect(0, groundLevel, canvas.width, 40);
+
+    // Grass Top
+    ctx.fillStyle = PALETTE.groundTop;
+    ctx.fillRect(0, groundLevel, canvas.width, 10);
+
+    // Ground Scroll Effect (Stripes)
+    let groundOffset = (frameCount * gameSpeed) % 40;
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    for (let i = -groundOffset; i < canvas.width; i += 40) {
+        ctx.fillRect(i, groundLevel + 10, 20, 30);
+    }
+}
+
+function drawCloud(x, y) {
+    if (x < -100) x += canvas.width + 200;
+    ctx.beginPath();
+    ctx.arc(x, y, 30, 0, Math.PI * 2);
+    ctx.arc(x + 25, y - 10, 35, 0, Math.PI * 2);
+    ctx.arc(x + 50, y, 30, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function update() {
+    // Clear handled by drawEnvironment's full rect fill
+    drawEnvironment();
+
+    // Game Logic
+    updatePhysics();
+    checkCollisions();
+    spawnLevelChunks();
+
+    // Player
+    drawPlayer();
+
+    // Entities
+    platforms.forEach((p, i) => { p.update(); p.draw(); if (p.markedForDeletion) platforms.splice(i, 1); });
+    mobs.forEach((m, i) => { m.update(); m.draw(); if (m.markedForDeletion) mobs.splice(i, 1); });
+    pickups.forEach((p, i) => { p.update(); p.draw(); if (p.markedForDeletion) pickups.splice(i, 1); });
+
+    // Level & HUD
+    score++;
+    if (score % 1000 === 0) {
+        level++;
+        gameSpeed += 0.5; // Progressive speed up
+        // Energy refill on level up
+        energy = Math.min(energy + 20, 100);
+    }
+
+    // UI
+    scoreEl.innerText = score.toString().padStart(6, '0');
+    energyEl.style.width = `${energy}%`;
+
+    // Draw Level Text temporarily
+    ctx.fillStyle = '#000';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.fillText(`LEVEL ${level}`, 20, 40);
+
+    // Energy drain
+    energy -= 0.02; // Slower drain
     if (energy <= 0) gameOver();
 
-    score += 1;
-    scoreEl.innerText = score;
-    energyEl.style.width = `${energy}%`;
-    if (energy < 20) energyEl.classList.replace('bg-amber-500', 'bg-red-500');
-    else energyEl.classList.replace('bg-red-500', 'bg-amber-500');
-
-    gameSpeed += 0.001; // Accelerate
-    frameCount++;
-
-    if (gameRunning) frameId = requestAnimationFrame(update);
+    if (gameRunning) {
+        frameCount++;
+        frameId = requestAnimationFrame(update);
+    }
 }
 
 function startGame() {
     gameRunning = true;
     score = 0;
     energy = 100;
-    gameSpeed = 5;
-    obstacles = [];
+    gameSpeed = 3;
+    level = 1;
+    frameCount = 0;
+
+    platforms = [];
+    mobs = [];
     pickups = [];
-    particles = [];
+
     player.y = 200;
     player.dy = 0;
+    player.grounded = false;
+
     startScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
+
     update();
 }
 
