@@ -177,16 +177,29 @@
             </div>
 
             <div class="hidden lg:flex items-center gap-10">
-                <a href="#about"
-                    class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors">Hakkımızda</a>
-                <a href="#solutions"
-                    class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors">Ekosistem</a>
-                <a href="#vlog"
-                    class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors">Vlog</a>
-                <a href="#tech"
-                    class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors">Teknoloji</a>
+                <a href="#about" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
+                    data-i18n="nav_about">Hakkımızda</a>
+                <a href="#solutions" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
+                    data-i18n="nav_ecosystem">Ekosistem</a>
+                <a href="#vlog" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
+                    data-i18n="nav_vlog">Vlog</a>
+                <a href="#tech" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
+                    data-i18n="nav_tech">Teknoloji</a>
                 <a href="#contact"
-                    class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-dark font-bold rounded-full transition-all text-sm">Katılım</a>
+                    class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-dark font-bold rounded-full transition-all text-sm"
+                    data-i18n="nav_join">Katılım</a>
+
+                <!-- Language Selector -->
+                <select id="language-selector"
+                    class="bg-dark border border-dark-border text-white text-xs font-bold uppercase tracking-widest px-2 py-1 rounded-lg focus:outline-none focus:border-amber-500 hover:border-amber-500/50 transition-colors cursor-pointer ml-4">
+                    <option value="tr">TR</option>
+                    <option value="en">EN</option>
+                    <option value="zh">ZH</option>
+                    <option value="ru">RU</option>
+                    <option value="es">ES</option>
+                    <option value="de">DE</option>
+                    <option value="it">IT</option>
+                </select>
             </div>
 
             <button class="lg:hidden text-white">
@@ -204,18 +217,19 @@
             <div class="flex flex-col lg:flex-row items-center gap-16">
                 <div class="lg:w-3/5 text-center lg:text-left">
                     <div class="initiative-badge inline-flex items-center gap-3 px-4 py-2 mb-8 animate-reveal">
-                        <span class="text-amber-500 text-xs font-bold uppercase tracking-widest">Geleceğin
+                        <span class="text-amber-500 text-xs font-bold uppercase tracking-widest"
+                            data-i18n="hero_badge">Geleceğin
                             Enerjisi</span>
                     </div>
 
                     <h2 class="font-display text-5xl lg:text-8xl font-extrabold mb-8 leading-tight tracking-tight animate-reveal"
                         style="animation-delay: 0.1s">
-                        Enerjinin <br>
-                        <span class="text-gradient">Yeni Formu.</span>
+                        <span data-i18n="hero_title_1">Enerjinin</span> <br>
+                        <span class="text-gradient" data-i18n="hero_title_2">Yeni Formu.</span>
                     </h2>
 
                     <p class="text-gray-400 text-lg lg:text-xl mb-10 max-w-2xl leading-relaxed lg:mx-0 mx-auto animate-reveal"
-                        style="animation-delay: 0.2s">
+                        style="animation-delay: 0.2s" data-i18n="hero_desc">
                         Super Batarya, elektrikli araçlardan yaşam alanlarına, rüzgar türbinlerinden güneş parklarına
                         uzanan uçtan uca bir enerji ekosistemi inşa ediyor.
                     </p>
@@ -224,13 +238,14 @@
                         style="animation-delay: 0.3s">
                         <a href="#solutions"
                             class="group relative px-8 py-4 bg-amber-500 text-dark font-bold rounded-xl overflow-hidden shadow-2xl transition-all hover:scale-105">
-                            <span class="relative z-10">Ekosistemi Keşfet</span>
+                            <span class="relative z-10" data-i18n="btn_discover">Ekosistemi Keşfet</span>
                             <div
                                 class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform">
                             </div>
                         </a>
                         <a href="#about"
-                            class="px-8 py-4 border border-dark-border hover:border-amber-500/50 text-white font-semibold rounded-xl transition-all hover:bg-amber-500/5">
+                            class="px-8 py-4 border border-dark-border hover:border-amber-500/50 text-white font-semibold rounded-xl transition-all hover:bg-amber-500/5"
+                            data-i18n="btn_vision">
                             Vizyonumuz
                         </a>
                     </div>
@@ -692,6 +707,68 @@
         </div>
     </section>
 
+    <!-- GAME SECTION -->
+    <section id="game-section" class="py-24 bg-dark relative border-t border-dark-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12 animate-reveal">
+                <div class="initiative-badge inline-flex items-center gap-3 px-4 py-2 mb-6">
+                    <span class="text-amber-500 text-xs font-bold uppercase tracking-widest"
+                        data-i18n="hero_badge">Enerji ve Eğlence</span>
+                </div>
+                <h2 class="font-display text-4xl lg:text-6xl font-bold mb-4" data-i18n="game_section_title">Enerji
+                    Yarışı</h2>
+                <p class="text-gray-400 max-w-xl mx-auto" data-i18n="game_section_desc">Elektron ol, engelleri aş ve
+                    enerjini koru! Super Batarya ile ne kadar uzağa gidebilirsin?</p>
+            </div>
+
+            <div
+                class="relative w-full max-w-4xl mx-auto h-[400px] bg-dark-card border-2 border-amber-500/20 rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(245,158,11,0.2)] animate-reveal">
+                <canvas id="gameCanvas" class="w-full h-full block"></canvas>
+
+                <!-- UI Overlay -->
+                <div
+                    class="absolute top-4 left-6 flex gap-6 font-display font-black text-xl z-10 select-none pointer-events-none">
+                    <div class="text-white"><span data-i18n="game_score" class="text-gray-500 text-sm block">SKOR</span>
+                        <span id="gameScore">0</span></div>
+                </div>
+                <div class="absolute top-4 right-6 w-48 z-10 select-none pointer-events-none">
+                    <span data-i18n="game_energy"
+                        class="text-gray-500 text-sm font-black block text-right mb-1">ENERJİ</span>
+                    <div class="h-4 bg-gray-800 rounded-full overflow-hidden border border-white/10">
+                        <div id="gameEnergy" class="h-full bg-amber-500 w-full transition-all duration-200"></div>
+                    </div>
+                </div>
+
+                <!-- Start Screen -->
+                <div id="gameStartScreen"
+                    class="absolute inset-0 bg-dark/80 backdrop-blur-sm flex flex-col items-center justify-center z-20">
+                    <h3 class="font-display text-5xl font-black text-white mb-2" data-i18n="game_section_title">SUPER
+                        RUN</h3>
+                    <p class="text-amber-500 font-bold uppercase tracking-[0.3em] text-xs mb-8">Endless Energy Runner
+                    </p>
+                    <button id="startBtn"
+                        class="px-8 py-4 bg-amber-500 hover:bg-amber-400 text-dark font-black rounded-xl transition-all hover:scale-105 shadow-[0_0_30px_rgba(245,158,11,0.4)]"
+                        data-i18n="game_start">OYUNA BAŞLA</button>
+                    <p class="mt-6 text-gray-500 text-xs">Jump: <span
+                            class="text-white border border-white/20 px-2 py-1 rounded mx-1">SPACE</span> or <span
+                            class="text-white border border-white/20 px-2 py-1 rounded mx-1">TAP</span></p>
+                </div>
+
+                <!-- Game Over Screen -->
+                <div id="gameOverScreen"
+                    class="absolute hidden inset-0 bg-red-900/90 backdrop-blur-md flex flex-col items-center justify-center z-30">
+                    <h3 class="font-display text-4xl font-black text-white mb-4" data-i18n="game_over_title">ENERJİ
+                        TÜKENDİ!</h3>
+                    <div class="text-2xl font-bold text-amber-200 mb-8"><span data-i18n="game_score">SKOR</span>: <span
+                            id="finalScore">0</span></div>
+                    <button id="restartBtn"
+                        class="px-8 py-4 bg-white hover:bg-gray-200 text-red-900 font-black rounded-xl transition-all hover:scale-105"
+                        data-i18n="game_restart">TEKRAR OYNA</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Word Odyssey / Vlog Section -->
     <section id="etymology" class="py-24 bg-dark relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6">
@@ -950,7 +1027,8 @@
                 <a href="#" class="hover:text-amber-500">YouTube</a>
             </div>
 
-            <p class="text-gray-600 text-[10px]">&copy; 2026 Super Batarya. Tüm Hakları Saklıdır.
+            <p class="text-gray-600 text-10px" data-i18n="footer_rights">&copy; 2026 Super Batarya. Tüm Hakları
+                Saklıdır.
             </p>
         </div>
     </footer>
@@ -1081,6 +1159,8 @@
             }, 2500); // 2.5 seconds show time
         });
     </script>
+    <script src="translations.js"></script>
+    <script src="game.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
