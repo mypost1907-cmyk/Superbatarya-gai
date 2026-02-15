@@ -66,7 +66,8 @@
         body {
             background-color: #0a0a0a;
             color: #ffffff;
-            overflow-x: hidden;
+            overflow: hidden;
+            /* Prevent scroll during splash screen */
         }
 
         .bg-mesh {
@@ -729,7 +730,8 @@
                 <div
                     class="absolute top-4 left-6 flex gap-6 font-display font-black text-xl z-10 select-none pointer-events-none">
                     <div class="text-white"><span data-i18n="game_score" class="text-gray-500 text-sm block">SKOR</span>
-                        <span id="gameScore">0</span></div>
+                        <span id="gameScore">0</span>
+                    </div>
                 </div>
                 <div class="absolute top-4 right-6 w-48 z-10 select-none pointer-events-none">
                     <span data-i18n="game_energy"
@@ -1147,9 +1149,9 @@
                 balloon.style.filter = `none`;
             }
         });
-        // Splash Screen Handler
-        window.addEventListener('DOMContentLoaded', () => {
-            const splash = document.getElementById('splash-screen');
+        // Splash Screen Handler - Execute immediately (DOM already loaded at end of body)
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
             setTimeout(() => {
                 splash.classList.add('splash-hidden');
                 setTimeout(() => {
@@ -1157,7 +1159,7 @@
                     document.body.style.overflow = 'auto';
                 }, 800);
             }, 2500); // 2.5 seconds show time
-        });
+        }
     </script>
     <script src="translations.js"></script>
     <script src="game.js"></script>
