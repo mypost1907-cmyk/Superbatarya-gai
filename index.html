@@ -89,6 +89,49 @@
             background: linear-gradient(90deg, rgba(245, 158, 11, 0.1), transparent);
             border-left: 2px solid #f59e0b;
         }
+
+        /* Renewable Energy Dashboard Styles */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(245, 158, 11, 0.5);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 158, 11, 0.7);
+        }
     </style>
 </head>
 
@@ -1195,6 +1238,10 @@
       }
     }
     </script>
+
+    <!-- Renewable Energy Dashboard -->
+    <script src="renewable-energy-data.js"></script>
+    <script src="renewable-energy-dashboard.js"></script>
 </body>
 
 </html>
