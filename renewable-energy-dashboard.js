@@ -19,7 +19,7 @@ class RenewableEnergyDashboard {
 
     createDashboard() {
         const dashboardHTML = `
-            <div id="renewable-dashboard" class="fixed top-4 left-4 z-50 font-sans" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div id="renewable-dashboard" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 font-sans" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 <!-- Compact Header when collapsed -->
                 <button id="dashboard-expand-btn" class="hidden bg-gradient-to-r from-amber-600 to-amber-500 text-white px-4 py-2 rounded-lg shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center gap-2 group">
                     <span class="text-xl">🌍</span>
@@ -28,7 +28,7 @@ class RenewableEnergyDashboard {
                 </button>
 
                 <!-- Expanded Dashboard -->
-                <div id="dashboard-panel" class="bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-amber-500/20 overflow-hidden max-w-md" style="animation: slideIn 0.3s ease-out;">
+                <div id="dashboard-panel" class="bg-gradient-to-br from-slate-900/70 to-slate-800/70 backdrop-blur-xl rounded-2xl shadow-2xl border border-amber-500/20 overflow-hidden max-w-md" style="animation: slideIn 0.3s ease-out;">
                     <!-- Header -->
                     <div class="bg-gradient-to-r from-amber-600 to-amber-500 px-4 py-3 flex items-center justify-between">
                         <div class="flex items-center gap-2">
@@ -46,7 +46,7 @@ class RenewableEnergyDashboard {
                     </div>
 
                     <!-- Controls -->
-                    <div class="px-4 py-3 bg-slate-800/50 border-b border-slate-700/50">
+                    <div class="px-4 py-3 bg-slate-800/30 border-b border-slate-700/30">
                         <div class="flex flex-wrap gap-2 mb-2">
                             <button data-view="combined" class="view-btn px-3 py-1 rounded-lg text-xs font-medium transition-all bg-amber-600 text-white shadow-lg">Tümü</button>
                             <button data-view="solar" class="view-btn px-3 py-1 rounded-lg text-xs font-medium transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">☀️ Güneş</button>
@@ -62,7 +62,7 @@ class RenewableEnergyDashboard {
                     <div id="country-list" class="max-h-96 overflow-y-auto custom-scrollbar px-4 py-2 space-y-2"></div>
 
                     <!-- Footer -->
-                    <div class="px-4 py-2 bg-slate-800/50 border-t border-slate-700/50">
+                    <div class="px-4 py-2 bg-slate-800/30 border-t border-slate-700/30">
                         <p class="text-xs text-slate-400 text-center">Anlık veriler • <span id="country-count">20</span> ülke izleniyor</p>
                     </div>
                 </div>
@@ -145,7 +145,7 @@ class RenewableEnergyDashboard {
             const windPercent = (country.wind.capacity / maxWind) * 100;
 
             let content = `
-                <div class="bg-slate-800/40 hover:bg-slate-700/60 rounded-lg p-3 transition-all duration-300 border border-slate-700/30 hover:border-amber-500/30" style="animation: fadeIn 0.3s ease-out ${index * 0.03}s backwards;">
+                <div class="bg-slate-800/20 hover:bg-slate-700/40 rounded-lg p-3 transition-all duration-300 border border-slate-700/20 hover:border-amber-500/30" style="animation: fadeIn 0.3s ease-out ${index * 0.03}s backwards;">
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center gap-2">
                             <span class="text-lg">${country.flag}</span>
