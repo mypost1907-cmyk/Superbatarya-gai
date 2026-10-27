@@ -4,7 +4,9 @@ const translations = {
         // Navigation
         nav_about: "Hakkımızda",
         nav_ecosystem: "Ekosistem",
+        nav_dashboard: "Enerji Tablosu",
         nav_vlog: "Vlog",
+        nav_game: "Oyun",
         nav_join: "Katılım",
 
         // Hero Section
@@ -104,7 +106,9 @@ const translations = {
         // Navigation
         nav_about: "About Us",
         nav_ecosystem: "Ecosystem",
+        nav_dashboard: "Energy Dashboard",
         nav_vlog: "Vlog",
+        nav_game: "Game",
         nav_join: "Join Us",
 
         // Hero Section
@@ -204,7 +208,9 @@ const translations = {
         // Navigation
         nav_about: "关于我们",
         nav_ecosystem: "生态系统",
+        nav_dashboard: "能源数据",
         nav_vlog: "视频博客",
+        nav_game: "游戏",
         nav_join: "加入我们",
 
         // Hero
@@ -304,7 +310,9 @@ const translations = {
         // Navigation
         nav_about: "О нас",
         nav_ecosystem: "Экосистема",
+        nav_dashboard: "Панель энергии",
         nav_vlog: "Влог",
+        nav_game: "Игра",
         nav_join: "Присоединиться",
 
         // Hero
@@ -404,7 +412,9 @@ const translations = {
         // Navigation
         nav_about: "Nosotros",
         nav_ecosystem: "Ecosistema",
+        nav_dashboard: "Panel de Energía",
         nav_vlog: "Vlog",
+        nav_game: "Juego",
         nav_join: "Únete",
 
         // Hero
@@ -504,7 +514,9 @@ const translations = {
         // Navigation
         nav_about: "Über Uns",
         nav_ecosystem: "Ökosystem",
+        nav_dashboard: "Energie-Dashboard",
         nav_vlog: "Vlog",
+        nav_game: "Spiel",
         nav_join: "Beitreten",
 
         // Hero
@@ -604,7 +616,9 @@ const translations = {
         // Navigation
         nav_about: "Chi Siamo",
         nav_ecosystem: "Ecosistema",
+        nav_dashboard: "Dashboard Energetica",
         nav_vlog: "Vlog",
+        nav_game: "Gioco",
         nav_join: "Unisciti",
 
         // Hero
