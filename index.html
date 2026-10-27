@@ -225,8 +225,12 @@
                     data-i18n="nav_about">Hakkımızda</a>
                 <a href="#solutions" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
                     data-i18n="nav_ecosystem">Ekosistem</a>
+                <a href="#energy-dashboard" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
+                    data-i18n="nav_dashboard">Enerji Tablosu</a>
                 <a href="#vlog" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
                     data-i18n="nav_vlog">Vlog</a>
+                <a href="#game-section" class="text-sm font-medium text-gray-400 hover:text-amber-400 transition-colors"
+                    data-i18n="nav_game">Oyun</a>
                 <a href="#contact"
                     class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-dark font-bold rounded-full transition-all text-sm"
                     data-i18n="nav_join">Katılım</a>
@@ -294,7 +298,7 @@
                 </div>
 
                 <div class="lg:w-2/5 relative animate-reveal" style="animation-delay: 0.4s">
-                    <!-- Tech Visual -->
+                    <!-- Hero Visual: Lightning Bolt -->
                     <div class="relative w-full aspect-square max-w-md mx-auto">
                         <div class="absolute inset-0 bg-amber-500/10 rounded-full blur-[80px] animate-pulse"></div>
                         <div
@@ -302,33 +306,11 @@
                             <div
                                 class="absolute h-1 w-full top-0 left-0 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent">
                             </div>
-
-                            <!-- Internal Dash -->
-                            <div class="w-full space-y-6">
-                                <div class="flex justify-between items-end">
-                                    <span class="text-xs text-amber-500 font-bold uppercase">Battery Capacity</span>
-                                    <span class="text-3xl font-display font-bold">98%</span>
-                                </div>
-                                <div class="h-4 bg-dark/50 border border-white/5 rounded-full p-1 overflow-hidden">
-                                    <div class="h-full bg-amber-500 rounded-full w-[98%] shadow-[0_0_15px_#f59e0b]">
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4 pt-4">
-                                    <div class="bg-dark/30 p-4 rounded-xl border border-white/5">
-                                        <p class="text-[10px] text-gray-500 uppercase">Solar Feed</p>
-                                        <p class="text-lg font-bold text-amber-400">+12.4 kW</p>
-                                    </div>
-                                    <div class="bg-dark/30 p-4 rounded-xl border border-white/5">
-                                        <p class="text-[10px] text-gray-500 uppercase">EV Charge</p>
-                                        <p class="text-lg font-bold text-amber-400">Fast</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <svg class="absolute -bottom-10 -right-10 w-40 h-40 text-amber-500/5" fill="currentColor"
-                                viewBox="0 0 24 24">
+                            <svg class="w-40 h-40 text-amber-500 drop-shadow-[0_0_30px_rgba(245,158,11,0.6)]" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
+                            <p class="text-amber-500 font-display font-black text-3xl mt-4 tracking-tight">SUPER BATARYA</p>
+                            <p class="text-gray-500 text-xs uppercase tracking-[0.3em] mt-1">Next-Gen Energy</p>
                         </div>
 
                         <!-- Decorative Rings -->
@@ -492,6 +474,142 @@
                         <li>• 20 Years Life Span</li>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- World Daily Energy Dashboard -->
+    <section id="energy-dashboard" class="py-24 bg-dark-card/50 relative border-t border-dark-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-reveal">
+                <div class="initiative-badge inline-flex items-center gap-3 px-4 py-2 mb-6">
+                    <span class="text-amber-500 text-xs font-bold uppercase tracking-widest">Canlı Veri</span>
+                </div>
+                <h2 class="font-display text-4xl lg:text-6xl font-bold mb-4">Dünya Günlük <span class="text-gradient">Enerji Üretimi</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Dünya genelinde yenilenebilir enerji kaynaklarından gerçek zamanlı tahmini üretim verileri.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Solar -->
+                <div class="bg-dark border border-amber-500/20 rounded-3xl p-8 text-center hover:border-amber-500/50 transition-all group">
+                    <div class="w-14 h-14 mx-auto mb-4 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center group-hover:bg-amber-500 group-hover:text-dark transition-all">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Güneş Enerjisi</p>
+                    <p id="solar-output" class="text-4xl font-display font-black text-amber-400">—</p>
+                    <p class="text-[10px] text-gray-600 mt-1">TWh / Gün</p>
+                </div>
+                <!-- Wind -->
+                <div class="bg-dark border border-cyan-500/20 rounded-3xl p-8 text-center hover:border-cyan-500/50 transition-all group">
+                    <div class="w-14 h-14 mx-auto mb-4 bg-cyan-500/10 text-cyan-400 rounded-2xl flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-dark transition-all">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Rüzgar Enerjisi</p>
+                    <p id="wind-output" class="text-4xl font-display font-black text-cyan-400">—</p>
+                    <p class="text-[10px] text-gray-600 mt-1">TWh / Gün</p>
+                </div>
+                <!-- Hydro -->
+                <div class="bg-dark border border-blue-500/20 rounded-3xl p-8 text-center hover:border-blue-500/50 transition-all group">
+                    <div class="w-14 h-14 mx-auto mb-4 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center group-hover:bg-blue-500 group-hover:text-dark transition-all">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                    </div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Hidroelektrik</p>
+                    <p id="hydro-output" class="text-4xl font-display font-black text-blue-400">—</p>
+                    <p class="text-[10px] text-gray-600 mt-1">TWh / Gün</p>
+                </div>
+                <!-- Total -->
+                <div class="bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/30 rounded-3xl p-8 text-center amber-glow">
+                    <div class="w-14 h-14 mx-auto mb-4 bg-amber-500 text-dark rounded-2xl flex items-center justify-center">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <p class="text-xs text-amber-500 uppercase tracking-widest mb-2 font-bold">Toplam Yenilenebilir</p>
+                    <p id="total-output" class="text-4xl font-display font-black text-white">—</p>
+                    <p class="text-[10px] text-gray-500 mt-1">TWh / Gün</p>
+                </div>
+            </div>
+
+            <!-- Energy Bar Chart -->
+            <div class="bg-dark border border-white/5 rounded-3xl p-8 lg:p-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="font-display font-bold text-xl text-white">Kaynak Bazlı Dağılım</h3>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest" id="dashboard-date">—</span>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">☀️ Güneş</span>
+                            <span id="solar-pct" class="text-amber-400 font-bold">—</span>
+                        </div>
+                        <div class="h-5 bg-dark-card rounded-full overflow-hidden">
+                            <div id="solar-bar" class="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">💨 Rüzgar</span>
+                            <span id="wind-pct" class="text-cyan-400 font-bold">—</span>
+                        </div>
+                        <div class="h-5 bg-dark-card rounded-full overflow-hidden">
+                            <div id="wind-bar" class="h-full bg-gradient-to-r from-cyan-600 to-cyan-400 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">💧 Hidro</span>
+                            <span id="hydro-pct" class="text-blue-400 font-bold">—</span>
+                        </div>
+                        <div class="h-5 bg-dark-card rounded-full overflow-hidden">
+                            <div id="hydro-bar" class="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">🌿 Biyokütle & Diğer</span>
+                            <span id="bio-pct" class="text-green-400 font-bold">—</span>
+                        </div>
+                        <div class="h-5 bg-dark-card rounded-full overflow-hidden">
+                            <div id="bio-bar" class="h-full bg-gradient-to-r from-green-600 to-green-400 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[10px] text-gray-600 mt-8 text-center">* Veriler IEA, IRENA ve Ember raporlarına dayalı günlük tahminlerdir.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voice Wall Section -->
+    <section id="voice-section" class="py-24 bg-dark relative border-t border-dark-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 animate-reveal">
+                <div class="initiative-badge inline-flex items-center gap-3 px-4 py-2 mb-6">
+                    <span class="text-amber-500 text-xs font-bold uppercase tracking-widest">Topluluk</span>
+                </div>
+                <h2 class="font-display text-4xl lg:text-6xl font-bold mb-4">Ses <span class="text-gradient">Duvarı</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">Sesini duyur! Yenilenebilir enerji hakkındaki düşüncelerini kaydet ve paylaş.</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+                <!-- Recorder -->
+                <div class="bg-dark-card border border-white/10 rounded-3xl p-8 mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-bold text-white">🎙️ Sesini Kaydet</h3>
+                        <span id="recordingStatus" class="hidden text-red-500 text-xs font-bold animate-pulse">● REC</span>
+                    </div>
+                    <canvas id="audioVisualizer" width="600" height="60" class="w-full h-[60px] rounded-xl bg-dark mb-4"></canvas>
+                    <div class="flex gap-4 justify-center">
+                        <button id="recordBtn" class="px-8 py-3 bg-red-500 hover:bg-red-400 text-white font-bold rounded-xl transition-all hover:scale-105 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
+                            Kaydet
+                        </button>
+                        <button id="stopBtn" class="hidden px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-xl transition-all hover:scale-105 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+                            Durdur
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Voice List -->
+                <div id="voiceList" class="space-y-3"></div>
             </div>
         </div>
     </section>
@@ -1214,6 +1332,8 @@
         }
     </script>
     <script src="translations.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="voice.js"></script>
     <script src="game.js"></script>
     <script type="application/ld+json">
     {
